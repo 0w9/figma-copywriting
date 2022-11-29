@@ -4,7 +4,9 @@ figma.ui.onmessage = async (pluginmessage) => {
   const nodes: SceneNode[] = [];
 
   const frame = figma.createFrame()
-  frame.resizeWithoutConstraints(figma.viewport.bounds.width / 2.5, figma.viewport.bounds.height / 2.5)
+  frame.resizeWithoutConstraints(
+    figma.viewport.bounds.width / 2.5, figma.viewport.bounds.height / 2.5
+  )
 
   await figma.loadFontAsync({ family: "Inter", style: "Regular" })
 
