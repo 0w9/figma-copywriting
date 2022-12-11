@@ -2,18 +2,39 @@
 
 <h1>Figma Debug Plugin</h1>
 <button id="debug-btn">Debug</button>
+<button id="test-btn">Send test request</button>
 
 <div class="input">
-  <input type="input" class="input__field" placeholder="Placeholder">
 </div>
 
 <script>
-  document.getElementById("debug-btn").onclick = () => {
+
+  async function main() {
+    const req = await fetch("http://localhost:5001/generate", {
+      method: "POST",
+      body: JSON.stringify({
+        text: "Short-form video app, which stores the videos on the blockchain."
+      })
+    })
+
+    const assets = await req.json()
+
     parent.postMessage({
       pluginMessage: {
-        action: "debug-btn"
-      }
+        action: "fetchedAssets",
+        assets: assets      },
     }, "*")
+  }
+
+  document.getElementById("debug-btn").onclick = () => {
+  }
+
+  document.getElementById("test-btn").onclick = () => {
+    main()
+  }
+
+  window.onmessage = async (event) => {
+    
   }
 
 </script>
