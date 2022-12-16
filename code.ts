@@ -7,6 +7,8 @@ async function fetchAssets() {
 figma.ui.onmessage = async (pluginmessage) => {
   if (pluginmessage.action === 'fetchedAssets') {
     console.log(JSON.stringify(pluginmessage.assets.header))
+
+    console.log(pluginmessage.assets)
     const header = pluginmessage.assets.header;
     const subheader = pluginmessage.assets.subheader;
     const description = pluginmessage.assets.description;

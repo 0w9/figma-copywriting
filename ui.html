@@ -1,19 +1,21 @@
 <link rel="stylesheet" href="../../node_modules/figma-plugin-ds/dist/figma-plugin-ds.css">
 
 <h1>Figma Debug Plugin</h1>
-<button id="debug-btn">Debug</button>
+<input id="user-input" />
 <button id="test-btn">Send test request</button>
 
 <div class="input">
 </div>
 
 <script>
-
   async function main() {
     const req = await fetch("http://localhost:5001/generate", {
       method: "POST",
+      headers: {
+            'Content-Type': 'application/json',
+        },
       body: JSON.stringify({
-        text: "Short-form video app, which stores the videos on the blockchain."
+        text: document.getElementById("user-input").value
       })
     })
 
@@ -26,15 +28,8 @@
     }, "*")
   }
 
-  document.getElementById("debug-btn").onclick = () => {
-  }
-
   document.getElementById("test-btn").onclick = () => {
     main()
-  }
-
-  window.onmessage = async (event) => {
-    
   }
 
 </script>
