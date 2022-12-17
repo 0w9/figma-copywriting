@@ -12,10 +12,16 @@ figma.ui.onmessage = async (pluginmessage) => {
     const header = pluginmessage.assets.header;
     const subheader = pluginmessage.assets.subheader;
     const description = pluginmessage.assets.description;
-    const cta = pluginmessage.assets.description;
-    const colors = pluginmessage.assets.color;
+    const cta = pluginmessage.assets.cta;
+    const colors = pluginmessage.assets.colors;
 
-    console.log(colors)
+    for(const color of colors) {
+      if(color.r === 0) color.r = 0.1
+      if(color.g === 0) color.g = 0.1
+      if(color.b === 0) color.b = 0.1
+    }
+
+    console.log("Colors: " + colors)
 
     const nodes: SceneNode[] = [];
 
@@ -72,37 +78,49 @@ figma.ui.onmessage = async (pluginmessage) => {
 
     title.characters = header;
 
-    title.fontSize = figma.viewport.bounds.width / 50
+    title.fontSize = 48
     title.resize(frame.width, title.height)
 
     title.x = frame.x
-    title.y = frame.height / 7.5
+    title.y = 80
 
     let text = figma.createText();
-    /*
     text.textAutoResize = "WIDTH_AND_HEIGHT"
     text.textAlignHorizontal = "CENTER"
 
     text.characters = subheader;
 
-    //text.fontSize = figma.viewport.bounds.width / 75
-    text.resize(frame.width * 0.85, text.height)
+    text.fontSize = 36
+    text.resize(frame.width, text.height)
 
-    text.x = frame.x / 2
-    text.y = frame.y + frame.height / 3
-      */
+    text.x = frame.x
+    text.y = 280
 
-    text.y = frame.height / 3.5
-    frame.appendChild(text)
+    let button = figma.createRectangle()
+    button.resize(329, 100)
+    button.x = 435
+    button.y = 515
 
-    text.textAutoResize = "WIDTH_AND_HEIGHT";
-    text.layoutAlign = "STRETCH";
+    button.cornerRadius = 25
+    
+    button.fills = [{ type: 'SOLID', color: {r: Number(`0.${colors[4][0]}`), g: Number(`0.${colors[4][1]}`), b: Number(`0.${colors[4][2]}`)} }]
 
-    text.characters = subheader
-    frame.appendChild(title);
+    let ctaText = figma.createText()
+    ctaText.characters = cta
+    ctaText.resize(329, 100)
+    ctaText.x = 435
+    ctaText.y = 515
+    ctaText.fontSize = 14
+    ctaText.textAutoResize = "WIDTH_AND_HEIGHT"
+    ctaText.textAlignHorizontal = "CENTER"
 
-    nodes.push(frame);
-    nodes.push(component)
+    ctaText.textAlignVertical = "CENTER"
+
+    ctaText.fills = [{ type: 'SOLID', color: {r: 1, g: 1, b: 1} }]
+
+    ctaText.resize(button.width, button.height)
+
+    nodes.push(title, text, button, component);
 
     figma.viewport.scrollAndZoomIntoView(nodes);
 
